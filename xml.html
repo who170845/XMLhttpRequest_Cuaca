@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Cuaca</title>
+</head>
+<body>
+
+<h1>Cuaca Saat Ini</h1>
+
+<div id="cuaca">
+    <!-- Data cuaca akan ditampilkan di sini -->
+</div>
+
+<script>
+// Ganti dengan API key OpenWeather Anda
+var apiKey = '7d8e784b9471055c961617fc67b72750';
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        // Parsing data XML
+        var xmlDoc = xhttp.responseXML;
+        var city = xmlDoc.querySelector('city');
+        var temperature = xmlDoc.querySelector('temperature');
+        var description = xmlDoc.querySelector('weather').getAttribute('value');
+
+        var cuacaHTML = '<h2>' + city.getAttribute('name') + '</h2>';
+        cuacaHTML += '<p>Suhu: ' + temperature.getAttribute('value') + '°C</p>';
+        cuacaHTML += '<p>Cuaca: ' + description + '</p>';
+
+        document.getElementById("cuaca").innerHTML = cuacaHTML;
+    }
+};
+
+var cityId = '1625822'; // Ganti dengan ID kota Anda
+var apiUrl = `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&mode=xml&units=metric&appid=${apiKey}`;
+xhttp.open("GET", apiUrl, true);
+xhttp.send();
+</script>
+
+</body>
+</html>
